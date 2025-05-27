@@ -5,7 +5,7 @@
   <title>Buscador de Filmes</title>
   <style>
     body { font-family: Arial; padding: 20px; background: #f0f0f0; }
-    input { padding: 5px; margin-top: 10px; }
+    input { padding: 5px; margin-top: 10px; width: 300px; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
     th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
     th { background-color: #ddd; }
@@ -15,21 +15,23 @@
 
   <h1>Buscador de Filmes de Ficção</h1>
   
-  <label for="search">Buscar por nome:</label>
-  <input type="text" id="search" placeholder="Ex: blade, duna, etc.">
+  <label for="search">Buscar por nome ou termo:</label>
+  <input type="text" id="search" placeholder="Ex: Matrix, Universo, etc.">
 
   <table>
     <thead>
       <tr>
         <th>Página</th>
-        <th>Apontada por</th>
-        <th>Qtd de Links</th>
+        <th>Links Recebidos</th>
+        <th>Ocorrências</th>
+        <th>Pontos</th>
+        <th>Autorreferência</th>
       </tr>
     </thead>
     <tbody id="results">
     </tbody>
   </table>
 
-  <script src="script.js"></script>
+  <script src="script_web.js"></script>
 </body>
 </html>
