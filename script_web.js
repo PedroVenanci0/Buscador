@@ -1,10 +1,10 @@
 const paginas = [
   'filmes/blade_runner.html',
   'filmes/duna.html',
-  'filmes/interstelar.html',
+  'filmes/interestelar.html',
   'filmes/matrix.html',
   'filmes/mochileiro.html',
-  'filmes/nova_pagina.html'
+  'filmes/ficcao-cientificao.html'
 ];
 
 async function buscarTermo(termo) {
@@ -13,28 +13,35 @@ async function buscarTermo(termo) {
   for (let pagina of paginas) {
     const resposta = await fetch(pagina);
     const texto = await resposta.text();
+    
 
     // Identificar quem aponta para essa página
+
     let apontadaPor = [];
     for (let outraPagina of paginas) {
       if (outraPagina !== pagina) {
         const respOutra = await fetch(outraPagina);
         const textoOutra = await respOutra.text();
-        if (textoOutra.includes(pagina)) {
+        if (textoOutra.includes(pagina.replace("filmes/", ""))) {
           apontadaPor.push(outraPagina);
         }
       }
     }
+    
+    
+    const tituloMatch = texto.match(/<title>(.*?)<\/title>/i);
+    const titulo = tituloMatch ? tituloMatch[1] : 'Filme';
 
+    const autoreferencia = texto.includes(pagina.replace("filmes/", ""));
     const ocorrencias = (texto.match(new RegExp(termo, 'gi')) || []).length;
     const linksRecebidos = apontadaPor.length;
-    const autoreferencia = texto.includes(pagina);
 
     let pontos = linksRecebidos * 10 + ocorrencias * 5;
     if (autoreferencia) pontos -= 15;
 
     resultados.push({
       pagina,
+      titulo,
       pontos,
       linksRecebidos,
       ocorrencias,
@@ -59,7 +66,7 @@ function exibirResultados(resultados) {
   resultados.forEach(res => {
     const linha = `
       <tr>
-        <td>${res.pagina}</td>
+        <td><a href="${res.pagina}">${res.titulo}</a></td>
         <td>${res.linksRecebidos}</td>
         <td>${res.ocorrencias}</td>
         <td>${res.pontos}</td>
